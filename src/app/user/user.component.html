@@ -1,0 +1,14 @@
+<div>user.component</div>
+<!--I had to add the "Allow CORS-Browser Extension" to Chrome-->
+<!--Without it I was getting an error (in the browser dev tools)-->
+  <h1>List of Users</h1>
+  <hr>
+  <div *ngFor="let user of users">
+      <div>
+        <h3 class="card-title">USERNAME: {{user.name}}</h3>
+        <h3 class="card-text">PASSWORD: {{user.password}}</h3>
+        <h3 class="card-text">AGE: {{user.age}}</h3>
+        <hr>
+      </div>
+  </div>
+
