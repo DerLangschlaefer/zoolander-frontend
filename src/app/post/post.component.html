@@ -1,5 +1,6 @@
-<!--<div *ngFor="let post of posts">-->
-<div>
-  <iframe width="560" height="315" [src]="getEmbeddedVideoUrl('')" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+<div *ngFor="let post of posts">
+  <div>
+    <iframe width="560" height="315" [src]="getEmbeddedVideoUrl(post)" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+  </div>
 </div>
-<!--</div>-->
+<div>our posts</div>

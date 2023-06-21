@@ -17,14 +17,18 @@ export class PostComponent implements OnInit{
     this.sanitizer = sanitizer;
   }
 
-  getEmbeddedVideoUrl(youtubeLink: string): SafeResourceUrl {
-    const videoId = "dm8Q4fgv8Qo";
+  // you need this method to embed the video. otherwise angular treats video links as strings
+  getEmbeddedVideoUrl(post: Post): SafeResourceUrl {
+    const lastIndex = post.postLink.lastIndexOf("/");
+    const videoId = post.postLink.slice(lastIndex + 1);
     const embeddedUrl = `https://www.youtube.com/embed/${videoId}`;
+    console.log(videoId)
     return this.sanitizer.bypassSecurityTrustResourceUrl(embeddedUrl);
   }
   ngOnInit(): void {
     this.http.get<Post[]>("http://localhost:8080/api/post").subscribe((jsonArray) => {
       this.posts = jsonArray;
+      console.log("so far so good");
     });
   }
 
