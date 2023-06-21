@@ -1,6 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {User} from "./User";
+import {User} from "./user"; // I got an error when changing the casing from User.ts file to user.ts (lower case), disappeared on re-opening the project
 
 @Component({
   selector: 'app-user',
@@ -15,7 +15,7 @@ export class UserComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.http.get<User[]>('http://localhost:8080/api/profile').subscribe((jsonArray) => {
+    this.http.get<User[]>('http://localhost:8080/api/users').subscribe((jsonArray) => {
       this.users = jsonArray;
     });
   }

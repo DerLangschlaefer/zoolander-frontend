@@ -1,0 +1,12 @@
+<div>comment.component</div>
+<!--I had to add the "Allow CORS-Browser Extension" to Chrome-->
+<!--Without it I was getting an error (in the browser dev tools)-->
+<h1>List of Comments</h1>
+<hr>
+<div *ngFor="let comment of comments">
+  <div>
+    <h3 class="card-title">COMMENT ID: {{comment.id}}</h3>
+    <h3 class="card-text">COMMENT: {{comment.text}}</h3>
+    <hr>
+  </div>
+</div>
