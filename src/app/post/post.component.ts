@@ -12,6 +12,7 @@ export class PostComponent implements OnInit{
 
   posts?: Post[];
   private sanitizer: DomSanitizer;
+  newPost: Post = {postLink: ""};
 
   constructor(private http: HttpClient, sanitizer: DomSanitizer) {
     this.sanitizer = sanitizer;
@@ -22,14 +23,16 @@ export class PostComponent implements OnInit{
     const lastIndex = post.postLink.lastIndexOf("/");
     const videoId = post.postLink.slice(lastIndex + 1);
     const embeddedUrl = `https://www.youtube.com/embed/${videoId}`;
-    console.log(videoId)
     return this.sanitizer.bypassSecurityTrustResourceUrl(embeddedUrl);
   }
+
   ngOnInit(): void {
-    this.http.get<Post[]>("http://localhost:8080/api/post").subscribe((jsonArray) => {
-      this.posts = jsonArray;
-      console.log("so far so good");
-    });
+    this.http.get<Post[]>("http://localhost:8080/api/posts")
+      .subscribe((jsonArray) => this.posts = jsonArray);
   }
 
+  save() {
+    this.http.post<Post>("http://localhost:8080/api/posts", this.newPost)
+      .subscribe((p) => this.newPost = p);
+  }
 }

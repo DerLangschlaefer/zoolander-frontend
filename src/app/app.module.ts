@@ -7,6 +7,7 @@ import { UserComponent } from './user/user.component';
 import {HttpClientModule} from "@angular/common/http";
 import { PostComponent } from './post/post.component';
 import { CommentComponent } from './comment/comment.component';
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -15,11 +16,13 @@ import { CommentComponent } from './comment/comment.component';
     PostComponent,
     CommentComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule // I had to import this manually
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        FormsModule,
+        // I had to import this manually
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

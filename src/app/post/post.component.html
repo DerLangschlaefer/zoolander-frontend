@@ -1,6 +1,15 @@
+<form (submit)="save()">
+  <!--<div>
+    <label>Video title: <input type="text"  name="videoTitle" [(ngModel)]="newPost.title"></label>
+  </div>-->
+  <div>
+    <label>Video link: <input type="text" name="postLink" [(ngModel)]="newPost.postLink"></label>
+  </div>
+    <button type="submit">Post video</button>
+</form>
 <div *ngFor="let post of posts">
   <div>
     <iframe width="560" height="315" [src]="getEmbeddedVideoUrl(post)" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
   </div>
 </div>
-<div>our posts</div>
+
