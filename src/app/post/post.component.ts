@@ -32,7 +32,7 @@ export class PostComponent implements OnInit{
   }
 
   save() {
-    this.http.post<Post>("http://localhost:8080/api/posts", this.newPost)
-      .subscribe((p) => this.newPost = p);
+    this.http.post<Post[]>("http://localhost:8080/api/posts", this.newPost)
+      .subscribe((jsonArray) => this.posts = jsonArray);
   }
 }
