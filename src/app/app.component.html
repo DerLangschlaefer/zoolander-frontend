@@ -5,13 +5,13 @@
     <label></label>
     <input name="name" type="text" placeholder="username" [(ngModel)]="user.name"><br>
     <label></label>
-    <input name="password" type="password" placeholder="password" [(ngModel)]="user.password"><br>
-    <button (click)="checkUser(user)">Log in</button><br>
-    <button disabled>Sign up</button>
+    <input name="password" type="password" placeholder="password" [(ngModel)]="user.password"><br><br>
+    <button mat-raised-button color="primary" (click)="checkUser(user)">Log in</button><br><br>
+    <button mat-raised-button color="primary" (click)="openSignUpDialog()" >Sign up</button>
   </form>
 </div>
 <div *ngIf="validUser">
-  <h3>Hello {{user.name}}</h3>
+  <h3>What's good, {{user.name}}-chan?</h3>
   <app-post></app-post>
 </div>
 <hr>

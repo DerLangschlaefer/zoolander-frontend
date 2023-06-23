@@ -1,1 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+@font-face {
+  font-family: HisyamScript;
+  src: url('src/assets/HisyamScript.otf') format("opentype");
+}
+.title {font-family: HisyamScript, serif}
+.dialog {text-align : center}

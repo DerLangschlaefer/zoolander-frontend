@@ -1,0 +1,10 @@
+<div class="dialog">
+  <h1 class="title">{{title}}</h1>
+  <h3>Sign up to see videos<span style = "display: block">of your favorite animals</span></h3>
+<!--  <input name="fullName" type="text" placeholder="Full Name" [(ngModel)]="newUser.fullName"><br>-->
+  <input name="username" type="text" placeholder="Username" [(ngModel)]="newUser.name"><br>
+  <input name="password" type="password" placeholder="Password" [(ngModel)]="newUser.password"><br>
+  <input name="age" type="text" placeholder="Age" [(ngModel)]="newUser.age"><br>
+  <button mat-raised-button color="primary" (click)="save()">OK</button>
+  <button mat-raised-button color="primary" (click)="onClose()">Cancel</button>
+</div>
