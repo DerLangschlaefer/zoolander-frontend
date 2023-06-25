@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Post} from "./post";
 import {HttpClient} from "@angular/common/http";
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
+
 
 @Component({
   selector: 'app-post',
@@ -18,17 +19,21 @@ export class PostComponent implements OnInit{
     this.sanitizer = sanitizer;
   }
 
+  ngOnInit(): void {
+    this.http.get<Post[]>("http://localhost:8080/api/posts")
+      .subscribe((jsonArray) => this.posts = jsonArray);
+  }
+
   // you need this method to embed the video. otherwise angular treats video links as strings
   getEmbeddedVideoUrl(post: Post): SafeResourceUrl {
-    const lastIndex = post.postLink.lastIndexOf("/");
-    const videoId = post.postLink.slice(lastIndex + 1);
+    const videoId = this.getVideoIdFromPost(post);
     const embeddedUrl = `https://www.youtube.com/embed/${videoId}`;
     return this.sanitizer.bypassSecurityTrustResourceUrl(embeddedUrl);
   }
 
-  ngOnInit(): void {
-    this.http.get<Post[]>("http://localhost:8080/api/posts")
-      .subscribe((jsonArray) => this.posts = jsonArray);
+  getVideoIdFromPost(post: Post) {
+    const lastIndex = post.postLink.lastIndexOf("/");
+    return post.postLink.slice(lastIndex + 1);
   }
 
   save() {

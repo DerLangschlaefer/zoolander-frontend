@@ -1,0 +1,77 @@
+import {Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {Post} from "./post";
+import {HttpClient} from "@angular/common/http";
+import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
+
+declare const YT: any;
+
+interface WindowWithYouTubeAPI extends Window {
+  onYouTubeIframeAPIReady?: () => void;
+}
+
+@Component({
+  selector: 'app-post',
+  templateUrl: './post.component.html',
+  styleUrls: ['./post.component.css']
+})
+export class PostComponent implements OnInit{
+
+  @ViewChildren("videoContainer") videoContainers!: QueryList<ElementRef<HTMLDivElement>>;
+
+  posts?: Post[];
+  private sanitizer: DomSanitizer;
+  newPost: Post = {postLink: ""};
+
+  constructor(private http: HttpClient, sanitizer: DomSanitizer) {
+    this.sanitizer = sanitizer;
+  }
+
+  ngOnInit(): void {
+    this.http.get<Post[]>("http://localhost:8080/api/posts")
+      .subscribe((jsonArray) => this.posts = jsonArray);
+
+    this.loadYouTubeAPI();
+    this.observeVideos();
+  }
+
+  observeVideos() {
+    this.videoContainers.changes.subscribe((entries: QueryList<ElementRef<Element>>) => {
+      entries.forEach((entry: ElementRef<Element>) => {
+        const videoElement: Element = entry.nativeElement;
+        const windowHeight = window.innerHeight;
+        const elementPosition = videoElement.getBoundingClientRect().top;
+
+        if (elementPosition < windowHeight * 2 / 3 && elementPosition > -videoElement.clientHeight / 3) {
+          this.playVideo(videoElement);
+        } else {
+          this.pauseVideo(videoElement);
+        }
+      });
+    });
+  }
+
+  playVideo(videoContainer: Element) {
+    const videoId = this.getVideoIdFromPost();
+    const player = new YT.Player(`player${videoId}`, {
+      videoID: videoId,
+      events: {
+        onReady: (event: any) => {
+          event.target.playVideo();
+        }
+      }
+    });
+  }
+
+  pauseVideo(videoContainer: Element) {
+    const videoId = videoContainer.id;
+    const player = new YT.Player(`player${videoId}`, {
+      videoId: videoId,
+      events: {
+        onReady: (event: any) => {
+          event.target.pauseVideo();
+        }
+      }
+    });
+  }
+
+  getPost(post: Post) {return post;}
