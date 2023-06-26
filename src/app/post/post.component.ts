@@ -25,7 +25,7 @@ export class PostComponent implements OnInit, AfterViewInit{
   }
 
   ngAfterViewInit(): void {
-    this.playPauseVideo();
+    this.observeVideo();
   }
 
   // you need this method to embed the video. otherwise angular treats video links as strings
@@ -51,7 +51,7 @@ export class PostComponent implements OnInit, AfterViewInit{
     return `${height}px`;
   }
 
-  playPauseVideo() {
+  observeVideo() {
     let videos = document.querySelectorAll("video");
     videos.forEach((video) => {
 
