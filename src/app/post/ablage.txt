@@ -75,3 +75,40 @@ export class PostComponent implements OnInit{
   }
 
   getPost(post: Post) {return post;}
+
+
+
+  ////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+  observeVideo() {
+      let i = 0;
+      this.observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            this.playVideo(i);
+          } else {
+            this.pauseVideo();
+          }
+          i++;
+        });
+      });
+      this.observer.observe(this.videoContainer.nativeElement);
+    }
+
+    playVideo(i: number) {
+      const iframe = this.videoIframe.nativeElement.querySelector('iframe');
+      if (this.posts) {
+        iframe.src = `${this.getEmbeddedVideoUrl(this.posts[i])}?autoplay=1`;
+      }
+    }
+
+    pauseVideo() {
+      const iframe = this.videoContainer.nativeElement.querySelector('iframe');
+      iframe.src = iframe.src.replace('?autoplay=1', '');
+    }
+
+
+
+  http://hp-clan.de/back2.mp4

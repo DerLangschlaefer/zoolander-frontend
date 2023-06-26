@@ -10,8 +10,21 @@
 <div>
 
 </div>
-<div *ngFor="let post of posts">
+<div *ngFor="let post of posts" style="width: 50%;">
   <div>
-    <iframe width="100%" height="500" [src]="getEmbeddedVideoUrl(post)" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    <iframe width="100%" [height]="getVideoHeight()" [src]="getEmbeddedVideoUrl(post)" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
   </div>
 </div>
+
+<!--<div *ngFor="let post of posts">
+  <div class="video-container" (mouseover)="playVideo(getEmbeddedVideoUrl(post))" (mouseout)="pauseVideo(getEmbeddedVideoUrl(post))">
+    <iframe [src]="getEmbeddedVideoUrl(post)" frameborder="0" allowfullscreen></iframe>
+  </div>
+</div>-->
+
+
+<!--<div class="video-container" id="videoContainer">
+  <video controls>
+    <source src="assets/sample-5s.mp4" type="video/mp4">
+  </video>
+</div>-->
