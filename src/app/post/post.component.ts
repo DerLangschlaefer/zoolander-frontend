@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Post} from "./post";
 import {HttpClient} from "@angular/common/http";
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
@@ -25,12 +25,13 @@ export class PostComponent implements OnInit, AfterViewInit{
   }
 
   ngAfterViewInit(): void {
+    this.playPauseVideo();
   }
 
   // you need this method to embed the video. otherwise angular treats video links as strings
   getEmbeddedVideoUrl(post: Post): SafeResourceUrl {
     const videoId = this.getVideoIdFromPost(post);
-    const embeddedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+    const embeddedUrl = `https://www.youtube.com/embed/${videoId}`;
     return this.sanitizer.bypassSecurityTrustResourceUrl(embeddedUrl);
   }
 
@@ -45,10 +46,34 @@ export class PostComponent implements OnInit, AfterViewInit{
   }
 
   getVideoHeight(): string {
-    const width = window.innerWidth * 0.5; // Breite des Iframe-Elements (50% der Fensterbreite)
-    const height = (width / 16) * 9; // Berechnung der Höhe für ein 16:9 Seitenverhältnis
+    const width = window.innerWidth * 0.5;
+    const height = (width / 16) * 9;
     return `${height}px`;
   }
+
+  playPauseVideo() {
+    let videos = document.querySelectorAll("video");
+    videos.forEach((video) => {
+
+      video.muted = false;
+      let playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          let observer = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (entry.intersectionRatio !== 1 && !video.paused) {
+                  video.pause();
+                } else if (video.paused) {
+                  video.play();
+                }
+              });
+            },
+            { threshold: 0.75 }
+          );
+          observer.observe(video);
+        });
+      }
+    });
+  }
 }
-
-
