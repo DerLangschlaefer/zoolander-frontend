@@ -5,7 +5,6 @@ import {HttpClient} from "@angular/common/http";
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 import {CookieService} from "ngx-cookie-service";
 import {User} from "../user/user";
-import {ResponseEntity} from "../responseEntity"
 
 @Component({
   selector: 'app-post',
@@ -30,36 +29,30 @@ export class PostComponent implements OnInit, AfterViewInit{
     this.load();
     this.author.name = this.cookieService.get('name');
     this.author.password = this.cookieService.get('password');
-
-    const videos = document.querySelectorAll("video");
-    const volumeSlider = document.getElementById("volumeSlider") as HTMLInputElement;
-
-    videos.forEach((video) => {
-      volumeSlider.addEventListener("input", () => {
-        video.volume = parseFloat(volumeSlider.value);
-      });
-    });
   }
 
   ngAfterViewInit(): void {
+    this.volumeControl();
     this.observeVideo();
   }
 
   // you need this method to embed the video. otherwise angular treats video links as strings
   getEmbeddedVideoUrl(post: Post): SafeResourceUrl {
-    const lastIndex = post.link.lastIndexOf("/");
     const videoId = this.getVideoIdFromPost(post);
     const embeddedUrl = `https://www.youtube.com/embed/${videoId}`;
     return this.sanitizer.bypassSecurityTrustResourceUrl(embeddedUrl);
   }
 
-  load() {
-    this.http.get<Post[]>("http://localhost:8080/api/posts").subscribe((jsonArray) => this.posts = jsonArray);
-  }
-
   getVideoIdFromPost(post: Post) {
     const lastIndex = post.link.lastIndexOf("/");
     return post.link.slice(lastIndex + 1);
+  }
+
+  load() {
+    this.http.get<Post[]>("http://localhost:8080/api/posts").subscribe((jsonArray) => {
+      this.posts = jsonArray;
+      this.createVideosContainer();
+    });
   }
 
   save() {
@@ -103,5 +96,49 @@ export class PostComponent implements OnInit, AfterViewInit{
       // there should be a check here whether the java ResponseEntity returns HttpStatus.OK...
       this.load()
     });
+  }
+
+  volumeControl() {
+    const videos = document.querySelectorAll("video");
+    const volumeSlider = document.getElementById("volumeSlider") as HTMLInputElement;
+
+    videos.forEach((video) => {
+      volumeSlider.addEventListener("input", () => {
+        video.volume = parseFloat(volumeSlider.value);
+      });
+    });
+  }
+
+  createVideosContainer() {
+    console.log("createVideosContainer() called");
+    let container = document.getElementById('container');
+    console.log(container);
+    let i = 0;
+
+    //this.posts?.forEach((post) => {
+    if (this.posts !== undefined) {
+      console.log("this.posts is not undefined");
+      while (i < this.posts.length) {
+
+        let div = document.createElement('div');
+        container?.appendChild(div);
+
+        let videoSrc = 'assets/sample-5s.mp4';
+
+        let video = document.createElement('video');
+        video.width = this.width;
+        video.height = this.height;
+
+        let source = document.createElement('source');
+        source.src = videoSrc;
+        source.type = 'video/mp4';
+
+        video.appendChild(source);
+        div.appendChild(video);
+
+        //});
+        i++;
+      }
+    }
   }
 }
