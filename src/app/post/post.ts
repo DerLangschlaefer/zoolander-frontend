@@ -1,6 +1,9 @@
+import {Comment} from "../comment/comment";
+import {User} from "../user/user";
+
 export interface Post {
-  id?: number,
-  title?: string,
-  description?: string,
-  postLink: string;
+  postID: string,
+  link: string;
+  author: User;
+  comments: Comment[];
 }

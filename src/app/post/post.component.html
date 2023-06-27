@@ -1,9 +1,9 @@
 <form (submit)="save()">
+<!--  <div>-->
+<!--    <label>Video title: <input type="text"  name="videoTitle" [(ngModel)]="newPost.title"></label>-->
+<!--  </div>-->
   <div>
-    <label>Video title: <input type="text"  name="videoTitle" [(ngModel)]="newPost.title"></label>
-  </div>
-  <div>
-    <label>Video link: <input type="text" name="postLink" [(ngModel)]="newPost.postLink"></label>
+    <label>Video link: <input type="text" name="postLink" [(ngModel)]="newPost.link"></label>
   </div>
     <button type="submit">Post video</button>
 </form>
@@ -12,6 +12,16 @@
   <div>
     <iframe [width]="width" [height]="height" [src]="getEmbeddedVideoUrl(post)" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
   </div>
+  <div *ngFor="let comment of post.comments">
+    <app-comment *ngIf="comment" [currentComment]="comment"></app-comment>
+  </div>
+<!-- Display only the most liked comment (of your category) IN FULL  -->
+<!-- "View all 99 comments" click this to modal popup -->
+<!-- Post new comment here (blue "Post" button shows up upon typing the first letter) -->
+  <form>
+    <input name="text" type="text" placeholder="Add a comment..." [(ngModel)]="newComment.text">
+    <button mat-button color="primary" (click)="comment(post)">Post</button>
+  </form>
 </div>
 <div>
   <div> <!--*ngFor="let post of posts"-->

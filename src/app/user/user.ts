@@ -1,7 +1,5 @@
 export interface User {
-  id: number,
+  userID: string,
   name: string,
   password: string,
-  age: number,
-  posts: string[]
 }

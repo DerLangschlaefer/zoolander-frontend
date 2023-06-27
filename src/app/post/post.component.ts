@@ -1,8 +1,11 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {Post} from "./post";
+import {Comment} from "../comment/comment";
 import {HttpClient} from "@angular/common/http";
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
-
+import {CookieService} from "ngx-cookie-service";
+import {User} from "../user/user";
+import {ResponseEntity} from "../responseEntity"
 
 @Component({
   selector: 'app-post',
@@ -13,17 +16,20 @@ export class PostComponent implements OnInit, AfterViewInit{
 
   posts?: Post[];
   private sanitizer: DomSanitizer;
-  newPost: Post = {postLink: ""};
+  newPost: Post = {} as Post;
+  newComment: Comment = {} as Comment;
+  author: User = {} as User;
   width: number = window.innerWidth / 2;
   height: number = (this.width / 16) * 9;
 
-  constructor(private http: HttpClient, sanitizer: DomSanitizer) {
+  constructor(private http: HttpClient, sanitizer: DomSanitizer, private cookieService: CookieService) {
     this.sanitizer = sanitizer;
   }
 
   ngOnInit(): void {
-    this.http.get<Post[]>("http://localhost:8080/api/posts")
-      .subscribe((jsonArray) => this.posts = jsonArray);
+    this.load();
+    this.author.name = this.cookieService.get('name');
+    this.author.password = this.cookieService.get('password');
 
     const videos = document.querySelectorAll("video");
     const volumeSlider = document.getElementById("volumeSlider") as HTMLInputElement;
@@ -41,14 +47,19 @@ export class PostComponent implements OnInit, AfterViewInit{
 
   // you need this method to embed the video. otherwise angular treats video links as strings
   getEmbeddedVideoUrl(post: Post): SafeResourceUrl {
+    const lastIndex = post.link.lastIndexOf("/");
     const videoId = this.getVideoIdFromPost(post);
     const embeddedUrl = `https://www.youtube.com/embed/${videoId}`;
     return this.sanitizer.bypassSecurityTrustResourceUrl(embeddedUrl);
   }
 
+  load() {
+    this.http.get<Post[]>("http://localhost:8080/api/posts").subscribe((jsonArray) => this.posts = jsonArray);
+  }
+
   getVideoIdFromPost(post: Post) {
-    const lastIndex = post.postLink.lastIndexOf("/");
-    return post.postLink.slice(lastIndex + 1);
+    const lastIndex = post.link.lastIndexOf("/");
+    return post.link.slice(lastIndex + 1);
   }
 
   save() {
@@ -81,6 +92,16 @@ export class PostComponent implements OnInit, AfterViewInit{
           observer.observe(video);
         });
       }
+    });
+  }
+
+  comment(post: Post) {
+    this.newComment.authorID = this.cookieService.get('userID');
+    this.newComment.postID = post.postID;
+    console.log("my new comment: ", this.newComment);
+    this.http.post<Comment>("http://localhost:8080/api/comment", this.newComment).subscribe(() => {
+      // there should be a check here whether the java ResponseEntity returns HttpStatus.OK...
+      this.load()
     });
   }
 }

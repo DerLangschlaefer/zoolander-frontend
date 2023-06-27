@@ -11,6 +11,7 @@ import {FormsModule} from "@angular/forms";
 import { SignupComponent } from './signup/signup.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatButtonModule} from "@angular/material/button";
+import {CookieService} from "ngx-cookie-service";
 
 @NgModule({
   declarations: [
@@ -28,9 +29,7 @@ import {MatButtonModule} from "@angular/material/button";
     MatDialogModule,
     MatButtonModule
   ],
-  providers: [
-    // {provide: MatDialogModule, useValue: {}} // without this I get a NullInjectionError (in the browser devtools)
-  ],
+  providers: [CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
