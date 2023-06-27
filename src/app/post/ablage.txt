@@ -1,26 +1,21 @@
-import {Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {Post} from "./post";
 import {HttpClient} from "@angular/common/http";
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 
-declare const YT: any;
-
-interface WindowWithYouTubeAPI extends Window {
-  onYouTubeIframeAPIReady?: () => void;
-}
 
 @Component({
   selector: 'app-post',
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.css']
 })
-export class PostComponent implements OnInit{
-
-  @ViewChildren("videoContainer") videoContainers!: QueryList<ElementRef<HTMLDivElement>>;
+export class PostComponent implements OnInit, AfterViewInit{
 
   posts?: Post[];
   private sanitizer: DomSanitizer;
   newPost: Post = {postLink: ""};
+  width: number = window.innerWidth / 2;
+  height: number = (this.width / 16) * 9;
 
   constructor(private http: HttpClient, sanitizer: DomSanitizer) {
     this.sanitizer = sanitizer;
@@ -30,85 +25,93 @@ export class PostComponent implements OnInit{
     this.http.get<Post[]>("http://localhost:8080/api/posts")
       .subscribe((jsonArray) => this.posts = jsonArray);
 
-    this.loadYouTubeAPI();
-    this.observeVideos();
-  }
+    const videos = document.querySelectorAll("video");
+    const volumeSlider = document.getElementById("volumeSlider") as HTMLInputElement;
 
-  observeVideos() {
-    this.videoContainers.changes.subscribe((entries: QueryList<ElementRef<Element>>) => {
-      entries.forEach((entry: ElementRef<Element>) => {
-        const videoElement: Element = entry.nativeElement;
-        const windowHeight = window.innerHeight;
-        const elementPosition = videoElement.getBoundingClientRect().top;
-
-        if (elementPosition < windowHeight * 2 / 3 && elementPosition > -videoElement.clientHeight / 3) {
-          this.playVideo(videoElement);
-        } else {
-          this.pauseVideo(videoElement);
-        }
+    videos.forEach((video) => {
+      volumeSlider.addEventListener("input", () => {
+        video.volume = parseFloat(volumeSlider.value);
       });
     });
   }
 
-  playVideo(videoContainer: Element) {
-    const videoId = this.getVideoIdFromPost();
-    const player = new YT.Player(`player${videoId}`, {
-      videoID: videoId,
-      events: {
-        onReady: (event: any) => {
-          event.target.playVideo();
-        }
-      }
-    });
+  ngAfterViewInit(): void {
+    this.observeVideo();
   }
 
-  pauseVideo(videoContainer: Element) {
-    const videoId = videoContainer.id;
-    const player = new YT.Player(`player${videoId}`, {
-      videoId: videoId,
-      events: {
-        onReady: (event: any) => {
-          event.target.pauseVideo();
-        }
-      }
-    });
+  // you need this method to embed the video. otherwise angular treats video links as strings
+  getEmbeddedVideoUrl(post: Post): SafeResourceUrl {
+    const videoId = this.getVideoIdFromPost(post);
+    const embeddedUrl = `https://www.youtube.com/embed/${videoId}`;
+    return this.sanitizer.bypassSecurityTrustResourceUrl(embeddedUrl);
   }
 
-  getPost(post: Post) {return post;}
+  getVideoIdFromPost(post: Post) {
+    const lastIndex = post.postLink.lastIndexOf("/");
+    return post.postLink.slice(lastIndex + 1);
+  }
 
-
-
-  ////////////////////////////////////////////////////////////////////////////////////////
-
-
+  save() {
+    this.http.post<Post[]>("http://localhost:8080/api/posts", this.newPost)
+      .subscribe((jsonArray) => this.posts = jsonArray);
+  }
 
   observeVideo() {
-      let i = 0;
-      this.observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            this.playVideo(i);
-          } else {
-            this.pauseVideo();
-          }
-          i++;
+    this.posts?.forEach((post) => {
+      let video = document.getElementById('video-' + post.id) as HTMLVideoElement;
+
+      // if set to true there is no way to unmute, unless you add the control attribute into the video tag
+      video.muted = false;
+
+      let playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          let observer = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (entry.intersectionRatio !== 1 && !video.paused) {
+                  video.pause();
+                } else if (video.paused && !video.ended) {
+                  video.play();
+                }
+              });
+            },
+            { threshold: 0.75 }
+          );
+          observer.observe(video);
         });
-      });
-      this.observer.observe(this.videoContainer.nativeElement);
-    }
-
-    playVideo(i: number) {
-      const iframe = this.videoIframe.nativeElement.querySelector('iframe');
-      if (this.posts) {
-        iframe.src = `${this.getEmbeddedVideoUrl(this.posts[i])}?autoplay=1`;
       }
-    }
+      // i++;
+    });
+  }
+}
 
-    pauseVideo() {
-      const iframe = this.videoContainer.nativeElement.querySelector('iframe');
-      iframe.src = iframe.src.replace('?autoplay=1', '');
-    }
 
+<form (submit)="save()">
+  <div>
+    <label>Video title: <input type="text"  name="videoTitle" [(ngModel)]="newPost.title"></label>
+  </div>
+  <div>
+    <label>Video link: <input type="text" name="postLink" [(ngModel)]="newPost.postLink"></label>
+  </div>
+    <button type="submit">Post video</button>
+</form>
+
+<!--<div *ngFor="let post of posts">
+  <div>
+    <iframe [width]="width" [height]="height" [src]="getEmbeddedVideoUrl(post)" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+  </div>
+</div>-->
+<div>
+  <div *ngFor="let post of posts">
+    <video [width]="width" [height]="height" [id]="'video-' + post.id" >
+      <source src="assets/sample-5s.mp4" type="video/mp4">
+    </video>
+    <div>
+      <input id="volumeSlider" type="range" min="0" max="1" step="0.1" value="1">
+    </div>
+  </div>
+</div>
 
 
   http://hp-clan.de/back2.mp4
