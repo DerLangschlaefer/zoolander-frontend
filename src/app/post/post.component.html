@@ -7,17 +7,19 @@
   </div>
     <button type="submit">Post video</button>
 </form>
-<div>
 
-</div>
-<div *ngFor="let post of posts" style="width: 50%;">
+<div *ngFor="let post of posts">
   <div>
-    <iframe width="100%" [height]="getVideoHeight()" [src]="getEmbeddedVideoUrl(post)" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    <iframe [width]="width" [height]="height" [src]="getEmbeddedVideoUrl(post)" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
   </div>
 </div>
-
 <div>
-  <video controls>
-    <source src="assets/sample-5s.mp4" type="video/mp4">
-  </video>
+  <div> <!--*ngFor="let post of posts"-->
+    <video [width]="width" [height]="height">
+      <source src="assets/sample-5s.mp4" type="video/mp4">
+    </video>
+    <div>
+      <input id="volumeSlider" type="range" min="0" max="1" step="0.1" value="1">
+    </div>
+  </div>
 </div>

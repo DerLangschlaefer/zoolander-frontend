@@ -1,4 +1,4 @@
-import {AfterViewInit, Component,OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {Post} from "./post";
 import {HttpClient} from "@angular/common/http";
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
@@ -14,6 +14,8 @@ export class PostComponent implements OnInit, AfterViewInit{
   posts?: Post[];
   private sanitizer: DomSanitizer;
   newPost: Post = {postLink: ""};
+  width: number = window.innerWidth / 2;
+  height: number = (this.width / 16) * 9;
 
   constructor(private http: HttpClient, sanitizer: DomSanitizer) {
     this.sanitizer = sanitizer;
@@ -22,6 +24,15 @@ export class PostComponent implements OnInit, AfterViewInit{
   ngOnInit(): void {
     this.http.get<Post[]>("http://localhost:8080/api/posts")
       .subscribe((jsonArray) => this.posts = jsonArray);
+
+    const videos = document.querySelectorAll("video");
+    const volumeSlider = document.getElementById("volumeSlider") as HTMLInputElement;
+
+    videos.forEach((video) => {
+      volumeSlider.addEventListener("input", () => {
+        video.volume = parseFloat(volumeSlider.value);
+      });
+    });
   }
 
   ngAfterViewInit(): void {
@@ -45,17 +56,13 @@ export class PostComponent implements OnInit, AfterViewInit{
       .subscribe((jsonArray) => this.posts = jsonArray);
   }
 
-  getVideoHeight(): string {
-    const width = window.innerWidth * 0.5;
-    const height = (width / 16) * 9;
-    return `${height}px`;
-  }
-
   observeVideo() {
     let videos = document.querySelectorAll("video");
     videos.forEach((video) => {
 
+      // if set to true there is no way to unmute, unless you add the control attribute into the video tag
       video.muted = false;
+
       let playPromise = video.play();
       if (playPromise !== undefined) {
         playPromise.then(() => {
