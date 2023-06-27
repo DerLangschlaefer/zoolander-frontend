@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component,OnInit} from '@angular/core';
 import {Post} from "./post";
 import {HttpClient} from "@angular/common/http";
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
@@ -64,7 +64,7 @@ export class PostComponent implements OnInit, AfterViewInit{
               entries.forEach((entry) => {
                 if (entry.intersectionRatio !== 1 && !video.paused) {
                   video.pause();
-                } else if (video.paused) {
+                } else if (video.paused && !video.ended) {
                   video.play();
                 }
               });
