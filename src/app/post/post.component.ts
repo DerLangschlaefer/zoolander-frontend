@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Post} from "./post";
 import {Comment} from "../comment/comment";
 import {HttpClient} from "@angular/common/http";
@@ -11,7 +11,7 @@ import {User} from "../user/user";
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.css']
 })
-export class PostComponent implements OnInit, AfterViewInit{
+export class PostComponent implements OnInit{
 
   posts?: Post[];
   private sanitizer: DomSanitizer;
@@ -31,9 +31,18 @@ export class PostComponent implements OnInit, AfterViewInit{
     this.author.password = this.cookieService.get('password');
   }
 
-  ngAfterViewInit(): void {
-    this.volumeControl();
-    this.observeVideo();
+  load() {
+    this.http.get<Post[]>("http://localhost:8080/api/posts").subscribe((jsonArray) => {
+      this.posts = jsonArray;
+      this.createVideosContainer();
+      this.observeVideo();
+      this.volumeControl();
+    });
+  }
+
+  save() {
+    this.http.post<Post[]>("http://localhost:8080/api/posts", this.newPost)
+      .subscribe((jsonArray) => this.posts = jsonArray);
   }
 
   // you need this method to embed the video. otherwise angular treats video links as strings
@@ -46,18 +55,6 @@ export class PostComponent implements OnInit, AfterViewInit{
   getVideoIdFromPost(post: Post) {
     const lastIndex = post.link.lastIndexOf("/");
     return post.link.slice(lastIndex + 1);
-  }
-
-  load() {
-    this.http.get<Post[]>("http://localhost:8080/api/posts").subscribe((jsonArray) => {
-      this.posts = jsonArray;
-      this.createVideosContainer();
-    });
-  }
-
-  save() {
-    this.http.post<Post[]>("http://localhost:8080/api/posts", this.newPost)
-      .subscribe((jsonArray) => this.posts = jsonArray);
   }
 
   observeVideo() {
@@ -110,20 +107,14 @@ export class PostComponent implements OnInit, AfterViewInit{
   }
 
   createVideosContainer() {
-    console.log("createVideosContainer() called");
-    let container = document.getElementById('container');
-    console.log(container);
-    let i = 0;
+    let container = document.getElementById('videosContainer');
 
-    //this.posts?.forEach((post) => {
-    if (this.posts !== undefined) {
-      console.log("this.posts is not undefined");
-      while (i < this.posts.length) {
+    this.posts?.forEach((post) => {
+      if (this.posts !== undefined) {
+        let videoDiv = document.createElement('div');
+        container?.appendChild(videoDiv);
 
-        let div = document.createElement('div');
-        container?.appendChild(div);
-
-        let videoSrc = 'assets/sample-5s.mp4';
+        let videoSrc = 'assets/sample-5s.mp4'; //post.link
 
         let video = document.createElement('video');
         video.width = this.width;
@@ -134,11 +125,20 @@ export class PostComponent implements OnInit, AfterViewInit{
         source.type = 'video/mp4';
 
         video.appendChild(source);
-        div.appendChild(video);
+        videoDiv.appendChild(video);
 
-        //});
-        i++;
+        /*post.comments?.forEach((comment) => {
+          let commentDiv = document.createElement('div');
+
+          let commentH3 = document.createElement('h3');
+          commentH3.setAttribute('class', 'card-text');
+          commentH3.textContent = comment.text;
+
+          commentDiv.appendChild(commentH3);
+          videoDiv.appendChild(commentDiv);
+
+        });*/
       }
-    }
+    });
   }
 }
