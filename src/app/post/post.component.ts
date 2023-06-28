@@ -36,7 +36,7 @@ export class PostComponent implements OnInit {
       this.posts = jsonArray;
       this.createVideosContainer();
       this.observeVideo();
-      this.volumeControl();
+      this.volumeControl();   //does not work as intended yet
     });
   }
 
@@ -62,7 +62,7 @@ export class PostComponent implements OnInit {
     videos.forEach((video) => {
 
       // if set to true there is no way to unmute, unless you add the control attribute into the video tag
-      video.muted = false;
+      video.muted = true;
 
       let playPromise = video.play();
       if (playPromise !== undefined) {
@@ -95,6 +95,7 @@ export class PostComponent implements OnInit {
     });
   }
 
+  //does not work as intended yet
   volumeControl() {
     const videos = document.querySelectorAll("video");
     const volumeSlider = document.getElementById("volumeSlider") as HTMLInputElement;
@@ -109,6 +110,7 @@ export class PostComponent implements OnInit {
   createVideosContainer() {
     let container = document.getElementById('videosContainer');
 
+    // noinspection JSUnusedLocalSymbols
     this.posts?.forEach((post) => {
       if (this.posts !== undefined) {
         let videoDiv = document.createElement('div');
@@ -126,6 +128,22 @@ export class PostComponent implements OnInit {
 
         video.appendChild(source);
         videoDiv.appendChild(video);
+
+        let volumeControlDiv = document.createElement('div');
+
+        let volumeControlInput = document.createElement('input');
+        volumeControlInput.setAttribute('id', 'volumeSlider');
+        volumeControlInput.setAttribute('type', 'range');
+        volumeControlInput.setAttribute('min', '0');
+        volumeControlInput.setAttribute('max', '1');
+        volumeControlInput.setAttribute('step', '0.1');
+        volumeControlInput.setAttribute('value', '0');
+
+        volumeControlDiv.appendChild(volumeControlInput);
+        videoDiv.appendChild(volumeControlDiv);
+
+
+        //breaks the code above for some reason ( observeVideos() won't work )
 
         /*post.comments?.forEach((comment) => {
           let commentDiv = document.createElement('div');
