@@ -1,9 +1,9 @@
 import {Comment} from "../comment/comment";
-import {User} from "../user/user";
+import {Logger} from "../user/logger";
 
 export interface Post {
   postID: string,
   link: string;
-  author: User;
+  author: Logger;
   comments: Comment[];
 }

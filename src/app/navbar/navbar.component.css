@@ -1,0 +1,39 @@
+li {
+  list-style-type: none;
+  transition: 0.5s;
+  background: #000;
+  margin: 10px;
+  padding: 20px;
+  border-radius: 6px;
+}
+
+li:hover {
+  color: #fff;
+  background: dimgrey;
+  text-shadow: 0 0 10px #fff,
+               0 0 20px #fff,
+               0 0 40px #fff,
+               0 0 80px #fff,
+               0 0 120px #fff,
+               0 0 160px #fff;
+}
+
+a {
+  color: white;
+  font-size: 24px;
+  text-align: left;
+  text-decoration: none;
+}
+
+/* Sidebar Styles */
+
+#sidebar {
+  position: fixed;
+  background: #000;
+  left: 250px;
+  width: 250px;
+  height: 100%;
+  margin-left: -250px;
+  /* margin-top I found by trial and error */
+  margin-top: -21px;
+}

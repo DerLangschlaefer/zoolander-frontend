@@ -4,7 +4,7 @@ import {Comment} from "../comment/comment";
 import {HttpClient} from "@angular/common/http";
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 import {CookieService} from "ngx-cookie-service";
-import {User} from "../user/user";
+import {Logger} from "../user/logger";
 import {ResponseEntity} from "../responseEntity"
 
 @Component({
@@ -18,7 +18,6 @@ export class PostComponent implements OnInit, AfterViewInit{
   private sanitizer: DomSanitizer;
   newPost: Post = {} as Post;
   newComment: Comment = {} as Comment;
-  author: User = {} as User;
   width: number = window.innerWidth / 2;
   height: number = (this.width / 16) * 9;
 
@@ -28,8 +27,6 @@ export class PostComponent implements OnInit, AfterViewInit{
 
   ngOnInit(): void {
     this.load();
-    this.author.name = this.cookieService.get('name');
-    this.author.password = this.cookieService.get('password');
 
     const videos = document.querySelectorAll("video");
     const volumeSlider = document.getElementById("volumeSlider") as HTMLInputElement;
@@ -39,6 +36,14 @@ export class PostComponent implements OnInit, AfterViewInit{
         video.volume = parseFloat(volumeSlider.value);
       });
     });
+  }
+
+  load() {
+    this.http.get<Post[]>("http://localhost:8080/api/posts").subscribe(jsonArray => this.posts = jsonArray);
+  }
+
+  save() {
+    this.http.post<Post[]>("http://localhost:8080/api/posts", this.newPost).subscribe(jsonArray => this.posts = jsonArray);
   }
 
   ngAfterViewInit(): void {
@@ -53,18 +58,9 @@ export class PostComponent implements OnInit, AfterViewInit{
     return this.sanitizer.bypassSecurityTrustResourceUrl(embeddedUrl);
   }
 
-  load() {
-    this.http.get<Post[]>("http://localhost:8080/api/posts").subscribe((jsonArray) => this.posts = jsonArray);
-  }
-
   getVideoIdFromPost(post: Post) {
     const lastIndex = post.link.lastIndexOf("/");
     return post.link.slice(lastIndex + 1);
-  }
-
-  save() {
-    this.http.post<Post[]>("http://localhost:8080/api/posts", this.newPost)
-      .subscribe((jsonArray) => this.posts = jsonArray);
   }
 
   observeVideo() {
@@ -99,9 +95,9 @@ export class PostComponent implements OnInit, AfterViewInit{
     this.newComment.authorID = this.cookieService.get('userID');
     this.newComment.postID = post.postID;
     console.log("my new comment: ", this.newComment);
-    this.http.post<Comment>("http://localhost:8080/api/comment", this.newComment).subscribe(() => {
+    this.http.post<Comment>("http://localhost:8080/api/comment", this.newComment).subscribe(comment => {
       // there should be a check here whether the java ResponseEntity returns HttpStatus.OK...
-      this.load()
+      this.load();
     });
   }
 }

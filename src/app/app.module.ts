@@ -12,6 +12,11 @@ import { SignupComponent } from './signup/signup.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatButtonModule} from "@angular/material/button";
 import {CookieService} from "ngx-cookie-service";
+import {MatSidenavModule} from "@angular/material/sidenav";
+import { NavbarComponent } from './navbar/navbar.component';
+import {MatIconModule} from "@angular/material/icon";
+import { ProfileComponent } from './profile/profile.component';
+import { SettingsComponent } from './profile/settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +24,10 @@ import {CookieService} from "ngx-cookie-service";
     UserComponent,
     PostComponent,
     CommentComponent,
-    SignupComponent
+    SignupComponent,
+    NavbarComponent,
+    ProfileComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +35,9 @@ import {CookieService} from "ngx-cookie-service";
     HttpClientModule, // I had to import this manually
     FormsModule,
     MatDialogModule,
-    MatButtonModule
+    MatButtonModule,
+    MatSidenavModule,
+    MatIconModule
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]
