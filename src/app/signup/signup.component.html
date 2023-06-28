@@ -4,11 +4,12 @@
   <h3>Sign up to see videos<span style = "display: block">of your favorite animals</span></h3>
   <input placeholder="Username" [(ngModel)]="newUser.username"><br>
   <input placeholder="Password" [(ngModel)]="newUser.password"><br><br>
+  <!-- Fullfilled criteria are displayed in green -->
   <div class="fas fa-check-circle" [ngClass]="isLong(newUser.password) ? 'green' : 'red'"> At least 6 characters.</div><br>
   <div class="fas fa-check-circle" [ngClass]="hasNumber(newUser.password) ? 'green' : 'red'"> At least 1 number.</div><br>
   <div class="fas fa-check-circle" [ngClass]="hasUpper(newUser.password) ? 'green' : 'red'"> At least 1 upper case.</div><br>
   <div class="fas fa-check-circle" [ngClass]="hasSpecial(newUser.password) ? 'green' : 'red'"> At least 1 non-alphanumeric.</div><br><br>
-<!--  <input type="date" placeholder="Birthday" [(ngModel)]="newUser.birthday"><br><br>-->
+  <input type="date" placeholder="Birthday" [(ngModel)]="newUser.birthday"><br><br>
   <button mat-raised-button color="primary" (click)="signup()">OK</button><br><br>
   <button mat-raised-button color="primary" (click)="cancel()">Cancel</button>
 </div>

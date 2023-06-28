@@ -28,6 +28,7 @@ export class SignupComponent {
     this.dialogRef.close();
   }
 
+  // password validation methods
   isLong(pw: string): boolean {
     return pw.length > 5;
   }

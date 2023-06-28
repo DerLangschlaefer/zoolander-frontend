@@ -1,0 +1,14 @@
+.create {
+  margin-left: 350px;
+}
+
+.empty-screen {
+  display: table-cell;
+  height: 400px;
+  width: 700px;
+  border: 5px dashed black;
+  border-radius: 10px;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 50px;
+}

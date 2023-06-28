@@ -1,10 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Post} from "./post";
 import {Comment} from "../comment/comment";
-import {HttpClient} from "@angular/common/http";
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
-import {CookieService} from "ngx-cookie-service";
-import {User} from "../user/user";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-post',
@@ -14,16 +12,11 @@ import {User} from "../user/user";
 export class PostComponent implements OnInit {
 
   posts?: Post[];
-  private sanitizer: DomSanitizer;
-  newPost: Post = {} as Post;
-  newComment: Comment = {} as Comment;
-  author: User = {} as User;
+  // newComment: Comment = {} as Comment;
   width: number = window.innerWidth / 2;
   height: number = (this.width / 16) * 9;
 
-  constructor(private http: HttpClient, sanitizer: DomSanitizer, private cookieService: CookieService) {
-    this.sanitizer = sanitizer;
-  }
+  constructor(private http: HttpClient, private sanitizer: DomSanitizer) {}
 
   ngOnInit(): void {
     this.load();
@@ -36,11 +29,6 @@ export class PostComponent implements OnInit {
       this.observeVideo();
       this.volumeControl();   //does not work as intended yet
     });
-  }
-
-  save() {
-    this.http.post<Post[]>("http://localhost:8080/api/posts", this.newPost)
-      .subscribe((jsonArray) => this.posts = jsonArray);
   }
 
   // you need this method to embed the video. otherwise angular treats video links as strings
@@ -83,15 +71,15 @@ export class PostComponent implements OnInit {
     });
   }
 
-  comment(post: Post) {
-    this.newComment.authorID = this.cookieService.get('userID');
-    this.newComment.postID = post.postID;
-    console.log("my new comment: ", this.newComment);
-    this.http.post<Comment>("http://localhost:8080/api/comment", this.newComment).subscribe(() => {
-      // there should be a check here whether the java ResponseEntity returns HttpStatus.OK...
-      this.load()
-    });
-  }
+  // comment(post: Post) {
+  //   this.newComment.authorID = this.cookieService.get('userID');
+  //   this.newComment.postID = post.postID;
+  //   console.log("my new comment: ", this.newComment);
+  //   this.http.post<Comment>("http://localhost:8080/api/comment", this.newComment).subscribe(() => {
+  //     // there should be a check here whether the java ResponseEntity returns HttpStatus.OK...
+  //     this.load()
+  //   });
+  // }
 
   //does not work as intended yet
   volumeControl() {

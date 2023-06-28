@@ -19,6 +19,8 @@ import { ProfileComponent } from './profile/profile.component';
 import { SettingsComponent } from './profile/settings/settings.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
+import { PopupComponent } from './post/popup/popup.component';
+import { CreateComponent } from './post/create/create.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,9 @@ import { HomeComponent } from './home/home.component';
     ProfileComponent,
     SettingsComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    PopupComponent,
+    CreateComponent
   ],
   imports: [
     BrowserModule,
