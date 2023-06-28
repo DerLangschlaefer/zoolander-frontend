@@ -13,7 +13,9 @@ export class SignupComponent {
 
   newUser: SignupAttempt = {} as SignupAttempt;
 
-  constructor(private http: HttpClient, private dialogRef: MatDialogRef<SignupComponent>) {}
+  constructor(private http: HttpClient, private dialogRef: MatDialogRef<SignupComponent>) {
+    this.newUser.password = "";
+  }
 
   signup() {
     this.http.post<SignupResponse>("http://localhost:8080/api/signup", this.newUser).subscribe(signupResponse => {
@@ -24,6 +26,22 @@ export class SignupComponent {
 
   cancel(): void {
     this.dialogRef.close();
+  }
+
+  isLong(pw: string): boolean {
+    return pw.length > 5;
+  }
+
+  hasNumber(pw: string): boolean {
+    return pw.replace(/[^0-9]/g, "").length > 0;
+  }
+
+  hasUpper(pw: string): boolean {
+    return pw.replace(/[^A-Z]/g, "").length > 0;
+  }
+
+  hasSpecial(pw: string): boolean {
+    return pw.replace(/[a-zA-Z0-9]/g, "").length > 0;
   }
 
 }

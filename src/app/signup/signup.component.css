@@ -6,7 +6,7 @@ path {
 }
 .signup {
   text-align: center;
-  height: 500px;
+  height: 600px;
   width: 250px;
   border: 1px solid black;
   border-radius: 20px;
@@ -20,6 +20,7 @@ path {
   color: red;
 }
 
-div.fas {
+.fas {
   font-size: 12px;
+  text-align: left;
 }
