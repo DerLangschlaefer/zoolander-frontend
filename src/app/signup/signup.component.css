@@ -11,3 +11,15 @@ path {
   border: 1px solid black;
   border-radius: 20px;
 }
+
+.green {
+  color: green;
+}
+
+.red {
+  color: red;
+}
+
+div.fas {
+  font-size: 12px;
+}

@@ -13,7 +13,7 @@ export class SignupComponent {
 
   newUser: SignupAttempt = {} as SignupAttempt;
 
-  constructor(private http: HttpClient, private dialogRef: MatDialogRef<SignupComponent>) { }
+  constructor(private http: HttpClient, private dialogRef: MatDialogRef<SignupComponent>) {}
 
   signup() {
     this.http.post<SignupResponse>("http://localhost:8080/api/signup", this.newUser).subscribe(signupResponse => {

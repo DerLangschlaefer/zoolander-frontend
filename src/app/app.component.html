@@ -5,6 +5,5 @@
 
 <!-- If the user is registered, display navbar and home screen -->
 <div *ngIf="this.cookieService.check('userID')">
-  <app-navbar></app-navbar>
   <app-home></app-home>
 </div>

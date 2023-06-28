@@ -22,10 +22,11 @@ path {
 
 .edit {
   color: black;
-  background: dimgrey;
-  border-radius: 20px;
+  background: white;
+  border-radius: 10px;
 }
 
 .edit:hover {
-  background: lightgrey;
+  color: white;
+  background: black;
 }
