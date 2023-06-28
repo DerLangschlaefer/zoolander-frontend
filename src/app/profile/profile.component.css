@@ -1,0 +1,31 @@
+path {
+  fill: deeppink;
+}
+
+.profile {
+  position: relative;
+  left: 50%;
+  height: 300px;
+  width: 600px;
+  text-align: center;
+  border: 5px solid black;
+  border-radius: 20px;
+}
+
+.circle {
+  height: 100px;
+  width: 100px;
+  border: 1px solid black;
+  border-radius: 50px;
+  margin: 25px;
+}
+
+.edit {
+  color: black;
+  background: dimgrey;
+  border-radius: 20px;
+}
+
+.edit:hover {
+  background: lightgrey;
+}

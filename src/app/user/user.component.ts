@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Logger} from "./logger"; // I got an error when changing the casing from User.ts file to user.ts (lower case), disappeared on re-opening the project
+import {User} from "./user"; // I got an error when changing the casing from User.ts file to user.ts (lower case), disappeared on re-opening the project
 
 @Component({
   selector: 'app-user',
@@ -9,13 +9,13 @@ import {Logger} from "./logger"; // I got an error when changing the casing from
 })
 export class UserComponent implements OnInit {
 
-  users?: Logger[];
+  users?: User[];
 
   constructor(private http: HttpClient) {
   }
 
   ngOnInit() {
-    this.http.get<Logger[]>('http://localhost:8080/api/users').subscribe((jsonArray) => {
+    this.http.get<User[]>('http://localhost:8080/api/users').subscribe((jsonArray) => {
       this.users = jsonArray;
     });
   }

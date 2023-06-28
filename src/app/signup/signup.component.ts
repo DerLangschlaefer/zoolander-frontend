@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {MatDialogRef} from '@angular/material/dialog';
-import {Logger} from "../user/logger";
+import {User} from "../user/user";
 import {HttpClient} from "@angular/common/http";
 import {Post} from "../post/post";
 
@@ -12,12 +12,12 @@ import {Post} from "../post/post";
 export class SignupComponent {
 
   title = 'Zooland';
-  newUser: Logger = {} as Logger;
+  newUser: User = {} as User;
 
   constructor(private http: HttpClient, private dialogRef: MatDialogRef<SignupComponent>) { }
 
   save() {
-    this.http.post<Logger>("http://localhost:8080/api/users", this.newUser).subscribe(() => {
+    this.http.post<User>("http://localhost:8080/api/users", this.newUser).subscribe(() => {
       this.dialogRef.close();
     });
   }
