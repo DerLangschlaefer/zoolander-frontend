@@ -27,8 +27,6 @@ export class PostComponent implements OnInit {
 
   ngOnInit(): void {
     this.load();
-    this.author.name = this.cookieService.get('name');
-    this.author.password = this.cookieService.get('password');
   }
 
   load() {

@@ -1,4 +1,6 @@
 export interface User {
-  name: string,
+  userID: string,
+  username: string,
   password: string,
+  isRegistered: boolean
 }

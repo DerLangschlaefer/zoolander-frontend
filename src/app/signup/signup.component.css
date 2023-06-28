@@ -1,3 +1,13 @@
 h3 {
   color : darkgrey;
 }
+path {
+  fill: green;
+}
+.signup {
+  text-align: center;
+  height: 500px;
+  width: 250px;
+  border: 1px solid black;
+  border-radius: 20px;
+}

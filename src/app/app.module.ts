@@ -17,6 +17,8 @@ import { NavbarComponent } from './navbar/navbar.component';
 import {MatIconModule} from "@angular/material/icon";
 import { ProfileComponent } from './profile/profile.component';
 import { SettingsComponent } from './profile/settings/settings.component';
+import { LoginComponent } from './login/login.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { SettingsComponent } from './profile/settings/settings.component';
     SignupComponent,
     NavbarComponent,
     ProfileComponent,
-    SettingsComponent
+    SettingsComponent,
+    LoginComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

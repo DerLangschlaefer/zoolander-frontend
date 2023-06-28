@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import {MatDialogRef} from '@angular/material/dialog';
-import {User} from "../user/user";
 import {HttpClient} from "@angular/common/http";
-import {Post} from "../post/post";
+import {SignupAttempt} from "./signupAttempt";
+import {SignupResponse} from "./signupResponse";
 
 @Component({
   selector: 'app-signup',
@@ -11,18 +11,18 @@ import {Post} from "../post/post";
 })
 export class SignupComponent {
 
-  title = 'Zooland';
-  newUser: User = {} as User;
+  newUser: SignupAttempt = {} as SignupAttempt;
 
   constructor(private http: HttpClient, private dialogRef: MatDialogRef<SignupComponent>) { }
 
-  save() {
-    this.http.post<User>("http://localhost:8080/api/users", this.newUser).subscribe(() => {
+  signup() {
+    this.http.post<SignupResponse>("http://localhost:8080/api/signup", this.newUser).subscribe(signupResponse => {
+      console.log(signupResponse.status);
       this.dialogRef.close();
     });
   }
 
-  onClose(): void {
+  cancel(): void {
     this.dialogRef.close();
   }
 

@@ -1,8 +1,4 @@
-import {Component, OnInit} from '@angular/core';
-import {User} from "./user/user";
-import {HttpClient} from "@angular/common/http";
-import {SignupComponent} from "./signup/signup.component";
-import {MatDialog} from "@angular/material/dialog";
+import {Component} from '@angular/core';
 import {CookieService} from "ngx-cookie-service";
 
 @Component({
@@ -10,33 +6,8 @@ import {CookieService} from "ngx-cookie-service";
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
 
-  title = 'Zooland';
-  user: User = {} as User;
-  isRegistered: boolean = false;
+  constructor(public cookieService: CookieService) {}
 
-  constructor(private http: HttpClient, private dialog: MatDialog, private cookieService: CookieService) {}
-
-  ngOnInit() {
-    if (this.cookieService.check('userID')) {
-      this.isRegistered = true;
-      this.user.userID = this.cookieService.get('userID');
-    }
-  }
-
-  login(frontendUser: User) {
-    this.http.get<User[]>('http://localhost:8080/api/users').subscribe(backendUsers => {
-      for (let backendUser of backendUsers) {
-        if (backendUser.name == frontendUser.name && backendUser.password == frontendUser.password) {
-          this.isRegistered = true;
-          this.cookieService.set('userID', backendUser.userID);
-        }
-      }
-    })
-  }
-
-  openSignUpDialog() {
-    this.dialog.open(SignupComponent);
-  }
 }
