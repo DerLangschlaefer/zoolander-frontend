@@ -3,6 +3,9 @@ import {Post} from "./post";
 import {Comment} from "../comment/comment";
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 import {HttpClient} from "@angular/common/http";
+import {MatDialog} from "@angular/material/dialog";
+import {PopupComponent} from "./popup/popup.component";
+import {CookieService} from "ngx-cookie-service";
 
 @Component({
   selector: 'app-post',
@@ -12,11 +15,10 @@ import {HttpClient} from "@angular/common/http";
 export class PostComponent implements OnInit {
 
   posts?: Post[];
-  // newComment: Comment = {} as Comment;
   width: number = window.innerWidth / 2;
   height: number = (this.width / 16) * 9;
 
-  constructor(private http: HttpClient, private sanitizer: DomSanitizer) {}
+  constructor(private http: HttpClient, private sanitizer: DomSanitizer, private dialog: MatDialog, private coookieService: CookieService) {}
 
   ngOnInit(): void {
     this.load();
@@ -29,6 +31,11 @@ export class PostComponent implements OnInit {
       this.observeVideo();
       this.volumeControl();   //does not work as intended yet
     });
+  }
+
+  openPopUpDialog(post: Post) {
+    this.coookieService.set('postID', post.postID);
+    this.dialog.open(PopupComponent);
   }
 
   // you need this method to embed the video. otherwise angular treats video links as strings
@@ -70,16 +77,6 @@ export class PostComponent implements OnInit {
       }
     });
   }
-
-  // comment(post: Post) {
-  //   this.newComment.authorID = this.cookieService.get('userID');
-  //   this.newComment.postID = post.postID;
-  //   console.log("my new comment: ", this.newComment);
-  //   this.http.post<Comment>("http://localhost:8080/api/comment", this.newComment).subscribe(() => {
-  //     // there should be a check here whether the java ResponseEntity returns HttpStatus.OK...
-  //     this.load()
-  //   });
-  // }
 
   //does not work as intended yet
   volumeControl() {

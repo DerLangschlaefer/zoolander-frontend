@@ -1,3 +1,26 @@
 .posts {
   margin-left: 350px;
 }
+
+button {
+  color: black;
+  background: white;
+  border: 1px solid black;
+  border-radius: 6px;
+  margin: 10px;
+  padding: 10px;
+  font-size: 24px;
+  transition: 0.5s;
+}
+
+button:hover {
+  color: white;
+  background: dimgrey;
+  border: none;
+  text-shadow: 0 0 10px #fff,
+               0 0 20px #fff,
+               0 0 40px #fff,
+               0 0 80px #fff,
+               0 0 120px #fff,
+               0 0 160px #fff;
+}
