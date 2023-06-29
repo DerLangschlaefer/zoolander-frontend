@@ -4,8 +4,10 @@
   <br>
   <br>
 
+  <iframe [width]="width" [height]="height" [src]="getEmbeddedVideoUrl(post)" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe><br>
+
   <!-- view all comments -->
-  <div *ngFor="let comment of comments">
+  <div *ngFor="let comment of post.comments">
     <div class="comment">{{comment.text}}</div>
     <hr>
   </div>
