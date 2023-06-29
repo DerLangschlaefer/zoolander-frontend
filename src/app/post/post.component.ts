@@ -99,7 +99,7 @@ export class PostComponent implements OnInit {
         let videoDiv = document.createElement('div');
         container?.appendChild(videoDiv);
 
-        let videoSrc = 'assets/sample-5s.mp4'; //post.link
+        let videoSrc = 'assets/pinguin-walk.mp4'; //post.link
 
         let video = document.createElement('video');
         video.width = this.width;
