@@ -4,4 +4,8 @@
   font-family: HisyamScript;
   src: url('src/assets/HisyamScript.otf') format("opentype");
 }
-.title {font-family: HisyamScript, serif}
+.title {
+  font-family: HisyamScript, serif}
+
+
+

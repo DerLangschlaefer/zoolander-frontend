@@ -1,17 +1,19 @@
 h3 {
-  color : darkgrey;
+  color: darkgrey;
 }
+
 path {
   fill: green;
 }
+
 .signup {
   text-align: center;
-  height: 600px;
-  width: 250px;
-  border: 1px solid black;
-  border-radius: 20px;
+  height: 540px;
+  width: 350px;
 }
-
+.inner{
+  padding:20px
+}
 .green {
   color: green;
 }
@@ -23,4 +25,27 @@ path {
 .fas {
   font-size: 12px;
   text-align: left;
+}
+
+.btn {
+  background-color: #CDAB48;
+  border: none;
+}
+
+.btn:hover {
+  background-color: #A1A17F;
+}
+
+.title {
+  font-family: HisyamScript, serif;
+  color: #CDAB48;
+  font-size: 70px;
+  margin: 20px;
+}
+
+input{
+  margin-bottom: 10px;
+}
+.btn{
+  margin:10px;
 }

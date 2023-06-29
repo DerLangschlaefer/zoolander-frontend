@@ -1,0 +1,51 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+  margin: 0; /* Füge diese Zeile hinzu, um den Standard-Rand des body-Elements zu entfernen */
+}
+
+.background-image {
+  background-image: url('src/assets/background.jpg');
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+
+input {
+
+}
+
+h1 {
+  margin-bottom: 25px;
+  font-size: 125px;
+}
+
+
+.container {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.btn {
+  background-color: #CDAB48;
+  border: none;
+  margin: 10px;
+}
+
+.btn:hover {
+  background-color: #A1A17F;
+}
+
+.title {
+  font-family: HisyamScript, serif;
+  color: #F7F1E5;
+}
