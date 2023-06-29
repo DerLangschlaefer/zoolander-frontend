@@ -1,23 +1,39 @@
 .popup {
-  height: 600px;
-  width: 900px;
-  border: 5px dashed black;
-  border-radius: 20px;
+  position: relative;
+}
+
+.popup i.fa-window-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+.video-container {
+  float: left;
+  width: 60%;
+  margin: 20px;
+}
+
+.comments-container {
+  float: right;
+  width: 35%;
 }
 
 .comment {
-  margin-left: 20px;
+  margin-bottom: 10px;
 }
 
-i {
-  color: black;
-  background: white;
-  border: 1px solid black;
-  border-radius: 5px;
-  margin: 10px;
+.new-comment-container {
+  clear: both;
+  margin-top: 10px;
 }
 
-i:hover {
-  color: white;
-  background: black;
+.btn {
+  background-color: #CDAB48;
+  border: none;
+}
+
+.btn:hover {
+  background-color: #A1A17F;
 }

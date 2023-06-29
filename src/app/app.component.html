@@ -4,7 +4,7 @@
 </div>
 
 <!-- If the user is registered, display navbar and home screen -->
-<div *ngIf="this.cookieService.check('userID')">
+<div class="app-com"*ngIf="this.cookieService.check('userID')" >
 <!--  <app-home></app-home>-->
   <app-navbar></app-navbar>
   <router-outlet></router-outlet>

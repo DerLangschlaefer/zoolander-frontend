@@ -1,21 +1,15 @@
 <div class="popup">
-
   <i class="fas fa-window-close" (click)="close()"></i>
-  <br>
-  <br>
-
-  <iframe [width]="width" [height]="height" [src]="getEmbeddedVideoUrl(post)" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe><br>
-
-  <!-- view all comments -->
-  <div *ngFor="let comment of post.comments">
-    <div class="comment">{{comment.text}}</div>
-    <hr>
+  <div class="video-container">
+    <iframe [width]="width" [height]="height" [src]="getEmbeddedVideoUrl(post)" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
   </div>
-
-  <!-- write new comment -->
-  <div>
-    <input name="text" type="text" placeholder="Add a comment..." [(ngModel)]="newComment.text">
-    <button mat-button color="primary" (click)="postComment()">Post</button>
+  <div class="comments-container">
+    <div *ngFor="let comment of post.comments" class="comment">
+      {{comment.text}}
+    </div>
+    <div class="new-comment-container">
+      <input class="form-control mb-3" name="text" type="text" placeholder="Add a comment..." [(ngModel)]="newComment.text">
+      <button class="btn btn-primary" (click)="postComment()">Post</button>
+    </div>
   </div>
-
 </div>
