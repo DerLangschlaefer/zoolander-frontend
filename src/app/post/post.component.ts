@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {Post} from "./post";
-import {Comment} from "../comment/comment";
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 import {HttpClient} from "@angular/common/http";
 import {MatDialog} from "@angular/material/dialog";
@@ -15,6 +14,7 @@ import {CookieService} from "ngx-cookie-service";
 export class PostComponent implements OnInit {
 
   posts?: Post[];
+  videos: string[] = ["pinguin-walk", "meerkat-standing", "sea-lion-swimming", "family-of-monkeys"];
   width: number = window.innerWidth / 2;
   height: number = (this.width / 16) * 9;
 
@@ -93,13 +93,12 @@ export class PostComponent implements OnInit {
   createVideosContainer() {
     let container = document.getElementById('videosContainer');
 
-    // noinspection JSUnusedLocalSymbols
-    this.posts?.forEach((post) => {
-      if (this.posts !== undefined) {
+    this.videos.forEach((videoName) => {
+      if (this.videos !== undefined) {
         let videoDiv = document.createElement('div');
         container?.appendChild(videoDiv);
 
-        let videoSrc = 'assets/pinguin-walk.mp4'; //post.link
+        let videoSrc = `assets/${videoName}.mp4`; //post.link
 
         let video = document.createElement('video');
         video.width = this.width;

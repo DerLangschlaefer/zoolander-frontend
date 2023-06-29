@@ -1,4 +1,7 @@
 <div class="posts" *ngFor="let post of posts">
+  <!--suppress HtmlDeprecatedAttribute -->
   <iframe [width]="width" [height]="height" [src]="getEmbeddedVideoUrl(post)" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe><br>
+  <!--suppress HtmlUnknownAttribute -->
   <button href="" (click)="openPopUpDialog(post)">View all comments</button>
 </div>
+<div class="posts" id="videosContainer"></div>
