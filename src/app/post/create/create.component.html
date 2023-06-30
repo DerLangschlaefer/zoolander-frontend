@@ -1,7 +1,27 @@
 <div class="create title">
   <div class="empty-screen">amazing animal clip</div>
   <form (submit)="save()">
+
+    <!-- Animal Selector -->
+    <div class="dropdown filter">
+      <button class="dropbtn">Animal Selector</button>
+      <div class="dropdown-content">
+        <a href="#">Dogs</a>
+        <a href="#">Cat</a>
+        <a href="#">Horses</a>
+        <a href="#">Birds</a>
+        <a href="#">Fish</a>
+        <a href="#">Goats</a>
+        <a href="#">Elephants</a>
+        <a href="#">BUGS!!!</a>
+        <a href="#">Reptiles</a>
+        <a href="#">Dolphins</a>
+      </div>
+    </div>
+
     <input type="url" placeholder="your link here" name="link" [(ngModel)]="postRequest.link">
+
+
     <button mat-button color="primary" type="submit">Post</button>
   </form>
 </div>
