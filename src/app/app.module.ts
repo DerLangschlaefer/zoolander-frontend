@@ -21,6 +21,8 @@ import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { PopupComponent } from './post/popup/popup.component';
 import { CreateComponent } from './post/create/create.component';
+import { FilterComponent } from './navbar/filter/filter.component';
+import {MatMenuModule} from "@angular/material/menu";
 
 @NgModule({
   declarations: [
@@ -45,7 +47,8 @@ import { CreateComponent } from './post/create/create.component';
     MatDialogModule,
     MatButtonModule,
     MatSidenavModule,
-    MatIconModule
+    MatIconModule,
+    MatMenuModule
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]
