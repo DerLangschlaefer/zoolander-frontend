@@ -39,6 +39,7 @@ export class PopupComponent implements OnInit {
     console.log("my new comment: ", this.newComment);
     this.http.post<Comment[]>("http://localhost:8080/api/comment", this.newComment).subscribe(commentsArray => {
       this.post.comments = commentsArray;
+      this.newComment.text = "";
     });
   }
 
