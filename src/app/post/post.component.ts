@@ -70,7 +70,7 @@ export class PostComponent implements OnInit {
                 }
               });
             },
-            { threshold: 0.75 }
+            { threshold: 0.85 }
           );
           observer.observe(video);
         });
